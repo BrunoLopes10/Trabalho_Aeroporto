@@ -182,3 +182,19 @@ private static void exibirReservas() {
     System.out.println("--------------------");
 }
 }
+System.out.println("Selecione o número da reserva para confirmar ou cancelar (0 para sair): ");
+        int opcao = scanner.nextInt();
+
+        if (opcao >= 1 && opcao <= filaDeReservas.size()) {
+            System.out.println("1. Confirmar Reserva");
+            System.out.println("2. Cancelar Reserva");
+            int acao = scanner.nextInt();
+
+            if (acao == 1) {
+                confirmarReserva(opcao);
+            } else if (acao == 2) {
+                cancelarReserva(opcao);
+            } else {
+                System.err.println("Opção inválida.");
+            }
+        } else if (opcao == 0) {
