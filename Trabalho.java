@@ -80,4 +80,51 @@ private static void vizualizarVoos() {
 
 
 }
+private static void cadastrarPassageiro(Scanner scanner) {
+    System.out.println("QUAL O NÚMERO DO VOO QUE O(A) SENHOR(A) DESEJA RESERVAR ?");
+    int reserva = scanner.nextInt();
+if (reserva == 309 || reserva == 85 || reserva == 2365 || reserva == 1235) {
+     System.out.println("NÚMERO DO VOO CONFIRMADO!");
+
+       System.out.print("INSIRA SEU NOME COMPLETO:");
+       scanner.nextLine();
+       nomePassageiro = scanner.nextLine();
+
+       System.out.print("INSIRA A SUA IDADE:");
+       int idade = scanner.nextInt();
+       
+       String cpf;
+    boolean cpfValido = false;
+
+    while (!cpfValido) {
+        System.out.print("INSIRA SEU CPF:");
+        scanner.nextLine();
+        cpfPassageiro = scanner.nextLine();
+
+        if (cpfPassageiro.length() == 14) {
+            cpfValido = true;
+        } else {
+            System.err.println("CPF INVÁLIDO. CERTIFIQUE-SE DE ESCREVER NA FORMA CORRETA.");
+        }
+    }
+       
+       System.out.print("INSIRA SEU EMAIL:");
+       String email = scanner.next();
+       
+       {
+       filaDeReservas.offer("RESERVA PARA: " + nomePassageiro + " (Voo " + reserva + ")");
+    
+}
+    System.out.println("");
+    System.out.println("================================");
+    System.out.println("RESERVA FEITA COM SUCESSO!");
+    System.out.println("================================");
+    System.out.println("");
+    
+   }else{
+       
+    System.err.println("NÚMERO DE RESERVA INVÁLIDO");
+   }
+       
+}
 }
