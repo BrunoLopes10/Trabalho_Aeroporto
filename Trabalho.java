@@ -1,7 +1,11 @@
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
-
 public class Trabalho {
+    private static Queue<String> filaDeReservas = new LinkedList<>();
+    private static String nomePassageiro; private static String cpfPassageiro;
+    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
        int opcao;
@@ -15,8 +19,11 @@ public class Trabalho {
                case 1:
                    vizualizarVoos();
                break;
-                
-         }
+               case 2:
+                   cadastrarPassageiro(scanner);
+               case 3:
+                   checkin();
+         }       
         } while (opcao != 5);
 }
     
@@ -80,6 +87,7 @@ private static void vizualizarVoos() {
 
 
 }
+
 private static void cadastrarPassageiro(Scanner scanner) {
     System.out.println("QUAL O NÚMERO DO VOO QUE O(A) SENHOR(A) DESEJA RESERVAR ?");
     int reserva = scanner.nextInt();
@@ -126,5 +134,14 @@ if (reserva == 309 || reserva == 85 || reserva == 2365 || reserva == 1235) {
     System.err.println("NÚMERO DE RESERVA INVÁLIDO");
    }
        
+}
+
+private static void checkin() {
+    System.out.println("----- AGUARDANDO CONFIRMAÇÃO -----");
+    System.out.println("NOME DO PASSAGEIRO: " + nomePassageiro);
+    System.out.println("CPF DO PASSAGEIRO: " + cpfPassageiro);
+    System.out.println("STATUS: AGUARDANDO CONFIRMAÇÃO...");
+    System.out.println("==================================");
+
 }
 }
