@@ -1,33 +1,45 @@
+import java.util.Scanner;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
 
 public class Trabalho {
-    private static Queue<String> filaDeReservas = new LinkedList<>();
-    private static String nomePassageiro; private static String cpfPassageiro;
     
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-       int opcao;
-       
-       do {
-           exibirMenu();
-           opcao = scanner.nextInt();
-           scanner.nextLine();
-          
-           switch (opcao) {
-               case 1:
-                   vizualizarVoos();
-               break;
-               case 2:
-                   cadastrarPassageiro(scanner);
-               case 3:
-                   checkin();
-         }       
-        } while (opcao != 5);
+private static Scanner scanner = new Scanner(System.in);    
+private static Queue<String> filaDeReservas = new LinkedList<>();
+private static String nomePassageiro; private static String cpfPassageiro;
+
+public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    int opcao;
+
+    do {
+        exibirMenu();
+        opcao = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcao) {
+            case 1:
+            vizualizarVoos();
+                break;
+            case 2:
+            cadastrarPassageiro(scanner);
+                break;
+            case 3:
+                checkin();
+                break;
+            case 4:
+                administrador(scanner);
+                break;
+            case 5:
+                System.out.println("FECHANDO O SISTEMA...");
+                break;
+            default:
+                System.err.println("OPÇÃO INVÁLIDA, DIGITE NOVAMENTE.");
+        }
+    } while (opcao != 5);
 }
-    
-    private static void exibirMenu() {
+
+private static void exibirMenu() {
     System.out.println("---------------------------");
     System.out.println("|       MENU DE VOOS      | ");
     System.out.println("---------------------------");
@@ -56,7 +68,7 @@ private static void vizualizarVoos() {
     
     System.out.println("NÚMERO DO VOO: 85");
     System.out.println("ORIGEM: RIO DE JANEIRO");
-    System.out.println("DESTINO: VITÓRIA");
+    System.out.println("DENTINO: VITÓRIA");
     System.out.println("HORÁRIO DE PARTIDA: 10:00");
     System.out.println("HORÁRIO DE CHEGADA: 11:30");
     System.out.println("QUANTIDADE MÁXIMA DE PASSAGEIROS: 220");
@@ -67,7 +79,7 @@ private static void vizualizarVoos() {
     
     System.out.println("NÚMERO DO VOO: 2365");
     System.out.println("ORIGEM: LONDRINA");
-    System.out.println("DESTINO: SÃO PAULO");
+    System.out.println("DENTINO: SÃO PAULO");
     System.out.println("HORÁRIO DE PARTIDA: 15:00");
     System.out.println("HORÁRIO DE CHEGADA: 16:30");
     System.out.println("QUANTIDADE MÁXIMA DE PASSAGEIROS: 200");
@@ -77,7 +89,7 @@ private static void vizualizarVoos() {
     
     System.out.println("NÚMERO DO VOO: 1235");
     System.out.println("ORIGEM: GUARULHOS");
-    System.out.println("DESTINO: SALVADOR");
+    System.out.println("DENTINO: SALVADOR");
     System.out.println("HORÁRIO DE PARTIDA: 19:00");
     System.out.println("HORÁRIO DE CHEGADA: 21:30");
     System.out.println("QUANTIDADE MÁXIMA DE PASSAGEIROS: 230");
@@ -112,7 +124,7 @@ if (reserva == 309 || reserva == 85 || reserva == 2365 || reserva == 1235) {
         if (cpfPassageiro.length() == 14) {
             cpfValido = true;
         } else {
-            System.err.println("CPF INVÁLIDO. CERTIFIQUE-SE DE ESCREVER NA FORMA CORRETA.");
+            System.err.println("CPF inválido. Certifique-se de digitar no formato correto.");
         }
     }
        
@@ -120,10 +132,10 @@ if (reserva == 309 || reserva == 85 || reserva == 2365 || reserva == 1235) {
        String email = scanner.next();
        
        {
-       filaDeReservas.offer("RESERVA PARA: " + nomePassageiro + " (Voo " + reserva + ")");
+       filaDeReservas.offer("Reserva para " + nomePassageiro + " (Voo " + reserva + ")");
     
 }
-    System.out.println("");
+    
     System.out.println("================================");
     System.out.println("RESERVA FEITA COM SUCESSO!");
     System.out.println("================================");
@@ -141,7 +153,64 @@ private static void checkin() {
     System.out.println("NOME DO PASSAGEIRO: " + nomePassageiro);
     System.out.println("CPF DO PASSAGEIRO: " + cpfPassageiro);
     System.out.println("STATUS: AGUARDANDO CONFIRMAÇÃO...");
-    System.out.println("==================================");
-
+            System.out.println("==================================");
+        }
+    
+private static void administrador(Scanner scanner) {
+   System.out.println("----- LOGIN ADMINISTRADOR  -----");
+    System.out.print("CHAVE DE ACESSO: ");
+    String chave = scanner.next();
+    
+    if (chave.equals("admin")) {
+        System.out.print("SENHA DE ACESSO: ");
+        String senha = scanner.next();
+        
+        if (senha.equals("admin")) {
+            exibirReservas();
+        } else {
+            System.err.println("SENHA INVÁLIDA. TENTE NOVAMENTE.");
+        }
+    } else {
+        System.err.println("CHAVE DE ACESSO INVÁLIDA. TENTE NOVAMENTE.");
+    }
 }
+
+private static void exibirReservas() {
+        System.out.println("----- RESERVAS -----");
+        int i = 1;
+        for (String reserva : filaDeReservas) {
+            System.out.println(i + ". " + reserva);
+            i++;
+        }
+        System.out.println("--------------------");
+
+        System.out.println("Selecione o número da reserva para confirmar ou cancelar (0 para sair): ");
+        int opcao = scanner.nextInt();
+
+        if (opcao >= 1 && opcao <= filaDeReservas.size()) {
+            System.out.println("1. Confirmar Reserva");
+            System.out.println("2. Cancelar Reserva");
+            int acao = scanner.nextInt();
+
+            if (acao == 1) {
+                confirmarReserva(opcao);
+            } else if (acao == 2) {
+                cancelarReserva(opcao);
+            } else {
+                System.err.println("Opção inválida.");
+            }
+        } else if (opcao == 0) {
+            System.out.println("Operação cancelada.");
+        } else {
+            System.err.println("Número de reserva inválido.");
+        }
+    }
+
+    private static void confirmarReserva(int numeroReserva) {
+        System.out.println("Reserva confirmada: " + filaDeReservas.poll());
+    }
+
+    private static void cancelarReserva(int numeroReserva) {
+        System.out.println("Reserva cancelada: " + filaDeReservas.remove());
+    }
 }
